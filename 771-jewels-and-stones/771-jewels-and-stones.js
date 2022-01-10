@@ -12,7 +12,9 @@ const numJewelsInStones = function (jewels, stones) {
 const getJewelsMap = function (jewels) {
     const result = {};
     
-    [...jewels].forEach(jewel => result[jewel] = true);
+    for (const jewel of jewels) {
+        result[jewel] = true;
+    }
     
     return result;
 }
