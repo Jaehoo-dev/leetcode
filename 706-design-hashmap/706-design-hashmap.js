@@ -1,4 +1,3 @@
-
 const MyHashMap = function() {
     this.map = {};
 };
