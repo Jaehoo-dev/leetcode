@@ -5,15 +5,8 @@
  */
 const numJewelsInStones = function (jewels, stones) {
     const jewelsMap = getJewelsMap(jewels);
-    let result = 0;
     
-    for (const stone of stones) {
-        if (jewelsMap[stone]) {
-            result++;
-        }
-    }
-    
-    return result;
+    return [...stones].reduce((acc, stone) => jewelsMap[stone] ? ++acc : acc, 0);
 };
 
 const getJewelsMap = function (jewels) {
