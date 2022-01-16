@@ -8,9 +8,9 @@ function countBattleships(board) {
     board.forEach((row, i) => {
         row.forEach((cell, j) => {
             const isEmpty = board[i][j] === '.';
-            const isEndOfShip = board[i][j + 1] !== 'X' && board[i + 1]?.[j] !== 'X';
+            const isNotEndOfShip = board[i][j + 1] === 'X' || board[i + 1]?.[j] === 'X';
             
-            if (isEmpty || !isEndOfShip) return;
+            if (isEmpty || isNotEndOfShip) return;
             
             result++;
         });
