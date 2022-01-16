@@ -6,20 +6,18 @@ function merge(intervals) {
     if (!intervals.length) return [];
     
     const sortedIntervals = intervals.sort((a, b) => a[0] - b[0]);
-    const result = [sortedIntervals[0]];
-    let pointerIndex = 1;
     
-    while (pointerIndex < sortedIntervals.length) {
-        if (checkIsOverlapping(result[result.length - 1], sortedIntervals[pointerIndex])) {
-            result[result.length - 1] = mergeIntervals(result[result.length - 1], sortedIntervals[pointerIndex]);
+    return sortedIntervals.reduce((accumulator, _, index, original) => {
+        if (index === original.length - 1) return accumulator;
+        
+        if (checkIsOverlapping(accumulator[accumulator.length - 1], original[index + 1])) {
+            accumulator[accumulator.length - 1] = mergeIntervals(accumulator[accumulator.length - 1], original[index + 1]);
         } else {
-            result.push(sortedIntervals[pointerIndex]);
+            accumulator.push(original[index + 1]);
         }
         
-        pointerIndex++;
-    }
-    
-    return result;
+        return accumulator;
+    }, [sortedIntervals[0]]);
 }
 
 function mergeIntervals(interval1, interval2) {
