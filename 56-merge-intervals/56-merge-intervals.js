@@ -8,7 +8,7 @@ function merge(intervals) {
     const sortedIntervals = intervals.sort((a, b) => a[0] - b[0]);
     
     return sortedIntervals.reduce((accumulator, _, index, original) => {
-        if (index === original.length - 1) return accumulator;
+        if (index >= original.length - 1) return accumulator;
         
         if (checkIsOverlapping(accumulator[accumulator.length - 1], original[index + 1])) {
             accumulator[accumulator.length - 1] = mergeIntervals(accumulator[accumulator.length - 1], original[index + 1]);
