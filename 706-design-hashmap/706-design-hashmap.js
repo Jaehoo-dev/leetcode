@@ -80,14 +80,8 @@ MyHashMap.prototype.remove = function (key) {
     
     if (!currentNode) return;
     
-    if (!currentNode.next && currentNode.key === key) {
-        this.map[hashedKey] = null;
-        
-        return;
-    }
-    
-    if (currentNode.next && currentNode.key === key) {
-        this.map[hashedKey] = currentNode.next;
+    if (currentNode.key === key) {
+        this.map[hashedKey] = currentNode.next || null;
         
         return;
     }
