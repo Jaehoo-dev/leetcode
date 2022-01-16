@@ -3,24 +3,23 @@
  * @return {number[][]}
  */
 function merge(intervals) {
-    let sortedIntervals = intervals.sort((a, b) => a[0] - b[0]);
-    let pointerIndex = 0;
+    if (!intervals.length) return [];
+    
+    const sortedIntervals = intervals.sort((a, b) => a[0] - b[0]);
+    const result = [sortedIntervals[0]];
+    let pointerIndex = 1;
     
     while (pointerIndex < sortedIntervals.length) {
-        if (checkIsOverlapping(sortedIntervals[pointerIndex], sortedIntervals[pointerIndex + 1])) {
-            sortedIntervals = [
-                ...sortedIntervals.slice(0, pointerIndex), 
-                mergeIntervals(sortedIntervals[pointerIndex], sortedIntervals[pointerIndex + 1]),
-                ...sortedIntervals.slice(pointerIndex + 2),
-            ];
-            
-            continue;
+        if (checkIsOverlapping(result[result.length - 1], sortedIntervals[pointerIndex])) {
+            result[result.length - 1] = mergeIntervals(result[result.length - 1], sortedIntervals[pointerIndex]);
+        } else {
+            result.push(sortedIntervals[pointerIndex]);
         }
         
         pointerIndex++;
     }
     
-    return sortedIntervals;
+    return result;
 }
 
 function mergeIntervals(interval1, interval2) {
