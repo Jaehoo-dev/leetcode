@@ -16,16 +16,18 @@ function countBattleships(board) {
  
     function searchGraph(board, rowIndex, columnIndex, visited) {
         if (rowIndex >= rowsCount || columnIndex >= columnsCount) return;
-        if (board[rowIndex][columnIndex] === '.' || visited[rowIndex][columnIndex]) return;
+        if (visited[rowIndex][columnIndex]) return;
         
         visited[rowIndex][columnIndex] = true;
+        
+        if (board[rowIndex][columnIndex] === '.') return;
         
         searchGraph(board, rowIndex, columnIndex + 1, visited);
         searchGraph(board, rowIndex + 1, columnIndex, visited);
         
         if (
             board[rowIndex][columnIndex - 1] !== 'X'
-            && (!board[rowIndex - 1] || board[rowIndex - 1][columnIndex] !== 'X')
+            && board[rowIndex - 1]?.[columnIndex] !== 'X'
         ) {
             result++;
         }
