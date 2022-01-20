@@ -15,58 +15,28 @@ function addTwoNumbers(l1, l2) {
     let currentResultNode = result;
     let currentNode1 = l1;
     let currentNode2 = l2;
-    let shouldAdd = false;
+    let shouldAddOne = false;
     
-    while (currentNode1 && currentNode2) {
-        let newValue = currentNode1.val + currentNode2.val + (shouldAdd ? 1 : 0);
+    while (currentNode1 || currentNode2) {
+        const value1 = currentNode1 ? currentNode1.val : 0;
+        const value2 = currentNode2 ? currentNode2.val : 0;
+        let newValue = value1 + value2 + (shouldAddOne ? 1 : 0);
         
         if (newValue > 9) {
             newValue = newValue - 10;
-            shouldAdd = true;
+            shouldAddOne = true;
         } else {
-            shouldAdd = false;
+            shouldAddOne = false;
         }
         
         currentResultNode.next = new ListNode(newValue);
         
         currentResultNode = currentResultNode.next;        
-        currentNode1 = currentNode1.next;
-        currentNode2 = currentNode2.next;
+        currentNode1 = currentNode1 ? currentNode1.next : currentNode1;
+        currentNode2 = currentNode2 ? currentNode2.next : currentNode2;
     }
     
-    while (currentNode1) {
-        let newValue = currentNode1.val + (shouldAdd ? 1 : 0);
-
-        if (newValue > 9) {
-            newValue = newValue - 10;
-            shouldAdd = true;
-        } else {
-            shouldAdd = false;
-        }
-        
-        currentResultNode.next = new ListNode(newValue);
-        
-        currentResultNode = currentResultNode.next; 
-        currentNode1 = currentNode1.next;
-    }
-    
-    while (currentNode2) {
-        let newValue = currentNode2.val + (shouldAdd ? 1 : 0);
-        
-        if (newValue > 9) {
-            newValue = newValue - 10;
-            shouldAdd = true;
-        } else {
-            shouldAdd = false;
-        }
-        
-        currentResultNode.next = new ListNode(newValue);
-        
-        currentResultNode = currentResultNode.next; 
-        currentNode2 = currentNode2.next;
-    }
-    
-    if (shouldAdd) {
+    if (shouldAddOne) {
         currentResultNode.next = new ListNode(1);
     }
     
