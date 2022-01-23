@@ -3,8 +3,6 @@
  * @return {boolean}
  */
 function isPerfectSquare(num) {
-    if (num === 1) return true;
-    
     let left = 1;
     let right = num;
     
