@@ -12,7 +12,9 @@ function isPerfectSquare(num) {
         
         if (centerSquared === num) {
             return true;
-        } else if (centerSquared < num) {
+        } 
+        
+        if (centerSquared < num) {
             left = center + 1;
         } else {
             right = center - 1;
