@@ -11,7 +11,7 @@
  * @return {ListNode}
  */
 function mergeTwoLists(list1, list2) {
-    const result = new ListNode(null);
+    const result = new ListNode();
     let currentNode = result;
     let head1 = list1;
     let head2 = list2;
@@ -31,15 +31,11 @@ function mergeTwoLists(list1, list2) {
         currentNode = currentNode.next;
     }
     
-    while (head1) {
-        currentNode.next = head1;
-        head1 = head1.next;
-        currentNode = currentNode.next;
-    }
+    let head = head1 || head2;
     
-    while (head2) {
-        currentNode.next = head2;
-        head2 = head2.next;
+    while (head) {
+        currentNode.next = head;
+        head = head.next;
         currentNode = currentNode.next;
     }
     
