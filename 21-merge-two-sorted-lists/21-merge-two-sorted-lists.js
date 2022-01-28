@@ -31,13 +31,7 @@ function mergeTwoLists(list1, list2) {
         currentNode = currentNode.next;
     }
     
-    let head = head1 || head2;
-    
-    while (head) {
-        currentNode.next = head;
-        head = head.next;
-        currentNode = currentNode.next;
-    }
+    currentNode.next = head1 || head2;
     
     return result.next;
 }
