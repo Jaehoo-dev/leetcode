@@ -5,13 +5,26 @@
  * @return {number}
  */
 function maxProfitAssignment(difficulties, profits, workers) {
-    const maxProfitsByWorkers = workers.map(ability => {
-        return profits.reduce((accumulator, currentProfit, index) => {
-            return difficulties[index] > ability ? accumulator : Math.max(accumulator, currentProfit);
-        }, 0);
-    });
+    const workersSorted = workers.sort((a, b) => a - b);
+    const jobsSortedByDifficulty = difficulties.map((difficulty, index) => ({
+        difficulty,
+        profit: profits[index],
+    })).sort((a, b) => a.difficulty - b.difficulty);
+    let currentJobIndex = 0;
+    let currentMaxProfit = 0;
     
-    return maxProfitsByWorkers.reduce((accumulator, currentProfit) => {
-        return accumulator + currentProfit;
+    return workersSorted.reduce((accumulator, currentWorkerAbility) => {
+        while (
+            currentJobIndex < jobsSortedByDifficulty.length 
+            && currentWorkerAbility >= jobsSortedByDifficulty[currentJobIndex].difficulty
+        ) {
+            if (jobsSortedByDifficulty[currentJobIndex].profit >= currentMaxProfit) {
+                currentMaxProfit = jobsSortedByDifficulty[currentJobIndex].profit;
+            }
+            
+            currentJobIndex++;
+        }
+        
+        return accumulator + currentMaxProfit;
     }, 0);
 }
