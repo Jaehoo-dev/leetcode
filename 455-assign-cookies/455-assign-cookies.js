@@ -4,8 +4,8 @@
  * @return {number}
  */
 function findContentChildren(g, s) {
-    const gSorted = g.sort((a, b) => a - b);
-    const sSorted = s.sort((a, b) => a - b);
+    const gSorted = [...g].sort((a, b) => a - b);
+    const sSorted = [...s].sort((a, b) => a - b);
     let childIndex = 0;
     let cookieIndex = 0;
     
