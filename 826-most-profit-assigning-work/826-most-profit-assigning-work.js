@@ -5,7 +5,7 @@
  * @return {number}
  */
 function maxProfitAssignment(difficulties, profits, workers) {
-    const workersSorted = workers.sort((a, b) => a - b);
+    const workersSorted = [...workers].sort((a, b) => a - b);
     const jobsSortedByDifficulty = difficulties.map((difficulty, index) => ({
         difficulty,
         profit: profits[index],
