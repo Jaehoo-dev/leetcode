@@ -4,78 +4,70 @@
  * @return {number}
  */
 function findKthLargest(nums, k) {
-    const heap = new MaxHeap();
-    let result;
+    const maxHeap = new MaxHeap(nums);
     
-    nums.forEach(num => heap.add(num));
-
     for (let i = 1; i <= k; i++) {
-        result = heap.remove();
+        const max = maxHeap.pop();
+        
+        if (i !== k) continue;
+        
+        return max;
     }
-    
-    return result;
 }
 
 class MaxHeap {
-    constructor() {
-        this.items = [null];
+    constructor(nums) {
+        this.items = [null, ...nums];
+        this.heapify();
     }
     
-    add(value) {
-        this.items.push(value);
-        this.percolateUp();
-    }
-    
-    remove() {
-        this.swap(1, this.items.length - 1);
+    heapify() {
+        const lastNonLeafNodeIndex = Math.floor(this.items.length / 2);
         
-        const value = this.items.pop();
+        for (let i = lastNonLeafNodeIndex; i > 0; i--) {
+            this.percolateDown(i);
+        }
+    }
+    
+    percolateDown(startIndex) {
+        const leftIndex = startIndex * 2;
+        const rightIndex = startIndex * 2 + 1;
+        
+        if (
+            (this.items[leftIndex] === undefined && this.items[rightIndex] === undefined)
+            || (this.items[leftIndex] <= this.items[startIndex] && this.items[rightIndex] <= this.items[startIndex])
+            || (this.items[leftIndex] === undefined && this.items[rightIndex] <= this.items[startIndex])
+            || (this.items[rightIndex] === undefined && this.items[leftIndex] <= this.items[startIndex])
+        ) {
+            return;
+        }
+        
+        let largerIndex;
+        
+        if (this.items[leftIndex] !== undefined && this.items[rightIndex] === undefined) {
+            largerIndex = leftIndex;
+        } else if (this.items[leftIndex] === undefined && this.items[rightIndex] !== undefined) {
+            largerIndex = rightIndex;
+        } else {
+            largerIndex = this.items[leftIndex] > this.items[rightIndex] ? leftIndex : rightIndex;
+        }
+
+        this.swap(startIndex, largerIndex);
+
+        this.percolateDown(largerIndex);
+    }
+    
+    pop() {
+        const result = this.items[1];
+        
+        this.items[1] = this.items.pop();
         
         this.percolateDown(1);
         
-        return value;
+        return result;
     }
     
-    percolateUp() {
-        let currentIndex = this.items.length - 1;
-        let parentIndex = parseInt(currentIndex / 2);
-        
-        while (parentIndex > 0) {
-            if (this.items[currentIndex] > this.items[parentIndex]) {
-                this.swap(currentIndex, parentIndex);
-            }
-            
-            currentIndex = parentIndex;
-            parentIndex = parseInt(parentIndex / 2);
-        }
-    }
-    
-    percolateDown(index) {
-        const leftIndex = index * 2;
-        const rightIndex = index * 2 + 1;
-        let indexOfMax = index;
-        
-        if (
-            leftIndex < this.items.length 
-            && this.items[leftIndex] > this.items[indexOfMax]
-        ) {
-            indexOfMax = leftIndex;
-        }
-        
-        if (
-            rightIndex < this.items.length
-            && this.items[rightIndex] > this.items[indexOfMax]
-        ) {
-            indexOfMax = rightIndex;
-        }
-        
-        if (indexOfMax !== index) {
-            this.swap(indexOfMax, index);
-            this.percolateDown(indexOfMax);
-        }
-    }
-    
-    swap(index1, index2) {
-        [this.items[index1], this.items[index2]] = [this.items[index2], this.items[index1]];
+    swap(i, j) {
+        [this.items[i], this.items[j]] = [this.items[j], this.items[i]];
     }
 }
